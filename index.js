@@ -1,19 +1,10 @@
 //Importing neccessary files
 const inquirer = require('inquirer');
 const fs = require('fs');
-
-//Inquirer prompt questions
-/*WHEN I start the application
-THEN I am prompted to enter the team manager’s name, employee ID, email address, and office number
-WHEN I enter the team manager’s name, employee ID, email address, and office number
-THEN I am presented with a menu with the option to add an engineer or an intern or to finish building my team
-WHEN I select the engineer option
-THEN I am prompted to enter the engineer’s name, ID, email, and GitHub username, and I am taken back to the menu
-WHEN I select the intern option
-THEN I am prompted to enter the intern’s name, ID, email, and school, and I am taken back to the menu
-WHEN I decide to finish building my team
-THEN I exit the application, and the HTML is generated
-*/
+const Manager = require('./lib/Manager');
+const Engineer = require('./lib/Engineer');
+const Intern = require('./lib/Intern');
+const Employee = require('./lib/Employee');
 
 //Function to write html files
 
@@ -60,7 +51,7 @@ let askManager = () => {
       type: 'list',
       message: 'Would you like to add another team member?',
       name: 'anotherMember.first',
-      choices: ['Engineer', 'Intern']
+      choices: ['Manager', 'Engineer', 'Intern']
     },
     // {
     //   type: 'input',
@@ -155,13 +146,20 @@ let askEngineer = () => {
       message: 'What is the engineer\'s GitHub username?',
       name: 'engineerGit',
     },
-    //{
-    //   type: 'list',
-    //   message: 'Would you like to add another team member?',
-    //   choices: ['Engineer', 'Intern'],
-    //   name: 'anotherMember.second',
-    // },
+    {
+      type: 'list',
+      message: 'Would you like to add another team member?',
+      name: 'anotherMember.first',
+      choices: ['Manager', 'Engineer', 'Intern']
+    },
   ])
+    .then((answers) => {
+      //function here to generate manager card in html
+      //fs.writeFile('index.html', empl)
+    })
+    .catch((err) => {
+      if (err) throw err;
+    })
 }
 
 let askIntern = () => {
@@ -191,8 +189,21 @@ let askIntern = () => {
       type: 'input',
       message: 'What is the intern\'s school?',
       name: 'internSchool',
-    }
+    },
+    {
+      type: 'list',
+      message: 'Would you like to add another team member?',
+      name: 'anotherMember.first',
+      choices: ['Manager', 'Engineer', 'Intern']
+    },
   ])
+    .then((answers) => {
+      //function here to generate manager card in html
+      //fs.writeFile('index.html', empl)
+    })
+    .catch((err) => {
+      if (err) throw err;
+    })
 }
 
 async function askEmployee() {
@@ -200,7 +211,8 @@ async function askEmployee() {
   console.log('ok');
   const engineerAnswers = await askEngineer(answers);
   console.log('ok2');
-  const internAnswers = await askIntern(engineerAnswers)
+  const internAnswers = await askIntern(engineerAnswers);
+
 }
 
 askEmployee()
