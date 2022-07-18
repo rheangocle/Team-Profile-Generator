@@ -1,0 +1,26 @@
+{
+  "name": "profile-gen",
+  "version": "1.0.0",
+  "description": "Creating an generator that creates html pages for team profiles",
+  "main": "index.js",
+  "scripts": {
+    "test": "na"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rheangocle/Team-Profile-Generator.git"
+  },
+  "keywords": [
+    "module",
+    "package.json"
+  ],
+  "author": "Rhea Le",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/rheangocle/Team-Profile-Generator/issues"
+  },
+  "homepage": "https://github.com/rheangocle/Team-Profile-Generator#readme",
+  "dependencies": {
+    "inquirer": "^8.2.4"
+  }
+}
