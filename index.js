@@ -5,11 +5,62 @@ const Manager = require('./lib/Manager');
 const Engineer = require('./lib/Engineer');
 const Intern = require('./lib/Intern');
 const Employee = require('./lib/Employee');
+const generateHtml = require('./htmlGenerator');
 
+let teamArr = [];
 //Function to write html files
 
 //Function to initialize app (or async func)
+/*function init() {
+add func for creating mangager
+  function createManager() {
+    use inquirer 
+  }
 
+  .then(answers) => {
+    -send answers
+    -push new manager to team array
+    -call function for determining type of employee, createTeam()
+  }
+}
+
+function for determining type of employee:
+function createTeam() {
+  use inquirer
+  then, based on choice, run func associated with adding employee type
+  .then((choice)) => {
+    conditional that runs function for employee type that user selected
+    if intern, run addIntern func
+    if they do not want anymore members, run function to build team(create file)
+  }
+}
+
+function for adding team member: separate func for each type
+function addIntern() {
+  use inquirer
+  prompt qs
+  take answers and create instance of Intern, add to new Intern 
+  push member into team array
+}
+
+function for building team
+function buildTeam() {
+  create file and add team to it
+  call function, passing in team members array, send to another js file
+
+}
+
+last of initializing function is to call function for creating manager so that it is the first question being asked. 
+
+createManager()
+
+*/
+//Function to create manager
+
+//Function to determine which type of employee to add
+//Function to add each member type
+
+//Function to build team
 //Call function
 
 let askManager = () => {
@@ -25,6 +76,11 @@ let askManager = () => {
       type: 'input',
       message: 'What is the name of the team manager?',
       name: 'managerName',
+      validate: function (input) {
+        if (input.length == 0) {
+          return console.log('Please enter your name.');
+        } else { return true };
+      }
     },
     {
       type: 'input',
@@ -38,6 +94,13 @@ let askManager = () => {
       type: 'input',
       message: 'What is the team manager\'s email address?',
       name: 'managerEmail',
+      validate: (input) => {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+        if (!emailRegex.test(input)) {
+          return "You have to provide a valid email address!"
+        }
+        return true
+      }
     },
     {
       type: 'input',
@@ -53,68 +116,12 @@ let askManager = () => {
       name: 'anotherMember.first',
       choices: ['Manager', 'Engineer', 'Intern']
     },
-    // {
-    //   type: 'input',
-    //   message: 'What is the engineer\'s name?',
-    //   name: 'engineerName',
-    //   when(answers) {
-    //     return answers.anotherMember.first === 'Engineer';
-    //   }
-    // },
-    // {
-    //   type: 'input',
-    //   message: 'What is the engineer\'s ID?',
-    //   name: 'engineerId',
-    //   filter(answer) {
-    //     return parseInt(answer);
-    //   }
-    // },
-    // {
-    //   type: 'input',
-    //   message: 'What is the engineer\'s email address?',
-    //   name: 'engineerEmail',
-    // },
-    // {
-    //   type: 'input',
-    //   message: 'What is the engineer\'s GitHub username?',
-    //   name: 'engineerGit',
-    // },
-    // {
-    //   type: 'list',
-    //   message: 'Would you like to add another team member?',
-    //   choices: ['Engineer', 'Intern'],
-    //   name: 'anotherMember.second',
-    // },
-    // {
-    //   type: 'input',
-    //   message: 'What is the intern\'s name?',
-    //   name: 'internName',
-    //   when(answers) {
-    //     return answers.anotherMember.second === 'Intern';
-    //   }
-    // },
-    // {
-    //   type: 'input',
-    //   message: 'What is the intern\'s ID?',
-    //   name: 'internId',
-    //   filter(answer) {
-    //     return parseInt(answer);
-    //   }
-    // },
-    // {
-    //   type: 'input',
-    //   message: 'What is the intern\'s email address?',
-    //   name: 'internEmail',
-    // },
-    // {
-    //   type: 'input',
-    //   message: 'What is the intern\'s school?',
-    //   name: 'internSchool',
-    // }
   ])
     .then((answers) => {
       //function here to generate manager card in html
-      //fs.writeFile('index.html', empl)
+      fs.writeFile('index.html', generateHtml(answers), (err) => {
+        console.log(err)
+      })
     })
     .catch((err) => {
       if (err) throw err;
@@ -127,6 +134,11 @@ let askEngineer = () => {
       type: 'input',
       message: 'What is the engineer\'s name?',
       name: 'engineerName',
+      validate: function (input) {
+        if (input.length == 0) {
+          return console.log('Please enter your name.');
+        } else { return true };
+      }
     },
     {
       type: 'input',
@@ -140,11 +152,23 @@ let askEngineer = () => {
       type: 'input',
       message: 'What is the engineer\'s email address?',
       name: 'engineerEmail',
+      validate: (input) => {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+        if (!emailRegex.test(input)) {
+          return "You have to provide a valid email address!"
+        }
+        return true
+      }
     },
     {
       type: 'input',
       message: 'What is the engineer\'s GitHub username?',
       name: 'engineerGit',
+      validate: function (input) {
+        if (input.length == 0) {
+          return console.log('Please enter your name.');
+        } else { return true };
+      }
     },
     {
       type: 'list',
@@ -184,11 +208,23 @@ let askIntern = () => {
       type: 'input',
       message: 'What is the intern\'s email address?',
       name: 'internEmail',
+      validate: (input) => {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+        if (!emailRegex.test(input)) {
+          return "You have to provide a valid email address!"
+        }
+        return true
+      }
     },
     {
       type: 'input',
       message: 'What is the intern\'s school?',
       name: 'internSchool',
+      validate: function (input) {
+        if (input.length == 0) {
+          return console.log('Please enter your name.');
+        } else { return true };
+      }
     },
     {
       type: 'list',
