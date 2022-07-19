@@ -135,6 +135,17 @@ let askManager = () => {
     })
 }
 
+const askEmployeeType = () => {
+  inquirer
+    .prompt([
+      {
+        type: 'list',
+        message: 'Would you like to add another team member?',
+        name: 'anotherMember.first',
+        choices: ['Manager', 'Engineer', 'Intern']
+      },
+    ])
+}
 let askEngineer = () => {
   return inquirer.prompt([
     {
@@ -271,7 +282,7 @@ let askIntern = () => {
 async function askEmployee() {
   const answers = await askManager();
   const engineerAnswers = await askEngineer(answers);
-  // const internAnswers = await askIntern(engineerAnswers);
+  const internAnswers = await askIntern(engineerAnswers);
 
 }
 

@@ -4,7 +4,7 @@
   "description": "Creating an generator that creates html pages for team profiles",
   "main": "index.js",
   "scripts": {
-    "test": "na"
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/rheangocle/Team-Profile-Generator#readme",
   "dependencies": {
-    "inquirer": "^8.2.4"
+    "inquirer": "^8.2.4",
+    "jest": "^27.5.1"
   }
 }
