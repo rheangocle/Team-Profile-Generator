@@ -105,7 +105,7 @@ let askManager = () => {
     {
       type: 'input',
       message: 'What is the team manager\'s office number?',
-      name: 'managerOffice',
+      name: 'officeNumber',
       filter(answer) {
         return parseInt(answer);
       }
@@ -117,11 +117,18 @@ let askManager = () => {
       choices: ['Manager', 'Engineer', 'Intern']
     },
   ])
-    .then((answers) => {
+    .then((answer) => {
       //function here to generate manager card in html
-      fs.writeFile('index.html', generateHtml(answers), (err) => {
-        console.log(err)
-      })
+      //fs.writeFile('index.html', generateHtml(answers), (err) => {
+      //console.log(err) )}
+      const manager = new Manager(
+        answer.managerName,
+        answer.managerId,
+        answer.managerEmail,
+        answer.officeNumber,
+      );
+      teamArr.push(manager);
+      console.log(teamArr);
     })
     .catch((err) => {
       if (err) throw err;
@@ -170,16 +177,27 @@ let askEngineer = () => {
         } else { return true };
       }
     },
-    {
-      type: 'list',
-      message: 'Would you like to add another team member?',
-      name: 'anotherMember.first',
-      choices: ['Manager', 'Engineer', 'Intern']
-    },
+    // {
+    //   type: 'list',
+    //   message: 'Would you like to add another team member?',
+    //   name: 'anotherMember.first',
+    //   choices: ['Manager', 'Engineer', 'Intern']
+    // },
   ])
-    .then((answers) => {
+    //function here to generate manager card in html
+    //fs.writeFile('index.html', empl)
+    .then((answer) => {
       //function here to generate manager card in html
-      //fs.writeFile('index.html', empl)
+      //fs.writeFile('index.html', generateHtml(answers), (err) => {
+      //console.log(err) )}
+      const engineer = new Engineer(
+        answer.engineerName,
+        answer.engineerId,
+        answer.engineerEmail,
+        answer.engineerGit,
+      );
+      teamArr.push(engineer);
+      console.log(teamArr);
     })
     .catch((err) => {
       if (err) throw err;
@@ -226,16 +244,24 @@ let askIntern = () => {
         } else { return true };
       }
     },
-    {
-      type: 'list',
-      message: 'Would you like to add another team member?',
-      name: 'anotherMember.first',
-      choices: ['Manager', 'Engineer', 'Intern']
-    },
+    // {
+    //   type: 'list',
+    //   message: 'Would you like to add another team member?',
+    //   name: 'anotherMember.first',
+    //   choices: ['Manager', 'Engineer', 'Intern']
+    // },
   ])
-    .then((answers) => {
+    .then((answer) => {
       //function here to generate manager card in html
       //fs.writeFile('index.html', empl)
+      const intern = new Intern(
+        answer.internName,
+        answer.internId,
+        answer.internEmail,
+        answer.internSchool,
+      );
+      teamArr.push(intern);
+      console.log(teamArr);
     })
     .catch((err) => {
       if (err) throw err;
@@ -244,11 +270,10 @@ let askIntern = () => {
 
 async function askEmployee() {
   const answers = await askManager();
-  console.log('ok');
   const engineerAnswers = await askEngineer(answers);
-  console.log('ok2');
-  const internAnswers = await askIntern(engineerAnswers);
+  // const internAnswers = await askIntern(engineerAnswers);
 
 }
 
-askEmployee()
+//init function
+askEmployee();
