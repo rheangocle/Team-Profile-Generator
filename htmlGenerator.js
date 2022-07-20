@@ -1,6 +1,10 @@
-function generateHtml(data) {
-  return `
-  <!DOCTYPE html>
+//role = manager.getRole();
+//id
+
+
+
+function generateHtml(manager) {
+  return `<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -23,13 +27,13 @@ function generateHtml(data) {
   <div class="pt-5 mt-5 row justify-content-evenly">
     <div class="card shadow" style="width: 18rem;">
       <div class="card-header bg-primary">
-        <h2 class="card-title">${data.managerName}</h2>
+        <h2 class="card-title">${manager.name}</h2>
         <h3 class="card-subtitle text-muted">Position</h3>
       </div>
       <ul class="list-group list-group-flush">
-        <li class="list-group-item p-3">ID: ${data.managerId}</li>
-        <li class="list-group-item p-3">Email: ${data.managerEmail}</li>
-        <li class="list-group-item p-3">Office Number: ${data.managerOffice}</li>
+        <li class="list-group-item p-3">ID: ${manager.id}</li>
+        <li class="list-group-item p-3">Email: ${manager.email}</li>
+        <li class="list-group-item p-3">Office Number: ${manager.officeNumber}</li>
         <li class="list-group-item p-3">GitHub: </li>
       </ul>
     </div>
@@ -47,18 +51,6 @@ function generateHtml(data) {
       </ul>
     </div>
 
-    <div class="card shadow" style="width: 18rem;">
-      <div class="card-header bg-primary">
-        <h2 class="card-title">Member Name</h2>
-        <h3 class="card-subtitle text-muted">Position</h3>
-      </div>
-      <ul class="list-group list-group-flush">
-        <li class="list-group-item p-3">ID: </li>
-        <li class="list-group-item p-3">Email: </li>
-        <li class="list-group-item p-3">Office Number:</li>
-        <li class="list-group-item p-3">GitHub: </li>
-      </ul>
-    </div>
   </div>
 </body>
 

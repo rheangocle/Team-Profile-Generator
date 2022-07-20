@@ -1,4 +1,7 @@
 # Team-Profile-Generator
+
+## Summary
+
 generating html files for team members
 
 ## User Story

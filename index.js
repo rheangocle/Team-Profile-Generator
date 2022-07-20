@@ -5,7 +5,7 @@ const Manager = require('./lib/Manager');
 const Engineer = require('./lib/Engineer');
 const Intern = require('./lib/Intern');
 const Employee = require('./lib/Employee');
-const generateHtml = require('./htmlGenerator');
+const htmlGenerator = require('./htmlGenerator');
 
 let teamArr = [];
 //Function to write html files
@@ -47,7 +47,6 @@ function for building team
 function buildTeam() {
   create file and add team to it
   call function, passing in team members array, send to another js file
-
 }
 
 last of initializing function is to call function for creating manager so that it is the first question being asked. 
@@ -55,13 +54,6 @@ last of initializing function is to call function for creating manager so that i
 createManager()
 
 */
-//Function to create manager
-
-//Function to determine which type of employee to add
-//Function to add each member type
-
-//Function to build team
-//Call function
 
 let askManager = () => {
 
@@ -80,6 +72,12 @@ let askManager = () => {
         if (input.length == 0) {
           return console.log('Please enter your name.');
         } else { return true };
+      },
+      //Returns name with first letter of each word capitalized
+      filter: function (input) {
+        return input.split(" ").map(word => {
+          return word.substring(0, 1).toUpperCase() + word.substring(1);
+        }).join(" ");
       }
     },
     {
@@ -110,17 +108,14 @@ let askManager = () => {
         return parseInt(answer);
       }
     },
-    {
-      type: 'list',
-      message: 'Would you like to add another team member?',
-      name: 'anotherMember.first',
-      choices: ['Manager', 'Engineer', 'Intern']
-    },
+    // {
+    //   type: 'list',
+    //   message: 'Would you like to add another team member?',
+    //   name: 'anotherMember.first',
+    //   choices: ['Manager', 'Engineer', 'Intern']
+    // },
   ])
     .then((answer) => {
-      //function here to generate manager card in html
-      //fs.writeFile('index.html', generateHtml(answers), (err) => {
-      //console.log(err) )}
       const manager = new Manager(
         answer.managerName,
         answer.managerId,
@@ -128,24 +123,44 @@ let askManager = () => {
         answer.officeNumber,
       );
       teamArr.push(manager);
-      console.log(teamArr);
+      fs.writeFile('index.html', htmlGenerator(manager), err => {
+        if (err) throw err;
+      })
+      //console.log(teamArr);
+
     })
     .catch((err) => {
       if (err) throw err;
     })
 }
 
-const askEmployeeType = () => {
-  inquirer
+let askEmployeeType = () => {
+  return inquirer
     .prompt([
       {
         type: 'list',
         message: 'Would you like to add another team member?',
-        name: 'anotherMember.first',
-        choices: ['Manager', 'Engineer', 'Intern']
+        name: 'anotherMember',
+        choices: ['Manager', 'Engineer', 'Intern', 'None']
       },
     ])
+    .then((answer) => {
+      if (answer.anotherMember === "Engineer") {
+        askEngineer();
+      } else if (answer.anotherMember === "Intern") {
+        askIntern();
+      } else if (answer.anotherMember === "Manager") {
+        askManager();
+      } else {
+        console.log(teamArr);
+        process.exit(0);
+      }
+    })
+    .catch((err) => {
+      if (err) throw err;
+    })
 }
+
 let askEngineer = () => {
   return inquirer.prompt([
     {
@@ -156,6 +171,11 @@ let askEngineer = () => {
         if (input.length == 0) {
           return console.log('Please enter your name.');
         } else { return true };
+      },
+      filter: function (input) {
+        return input.split(" ").map(word => {
+          return word.substring(0, 1).toUpperCase() + word.substring(1);
+        }).join(" ");
       }
     },
     {
@@ -188,19 +208,8 @@ let askEngineer = () => {
         } else { return true };
       }
     },
-    // {
-    //   type: 'list',
-    //   message: 'Would you like to add another team member?',
-    //   name: 'anotherMember.first',
-    //   choices: ['Manager', 'Engineer', 'Intern']
-    // },
   ])
-    //function here to generate manager card in html
-    //fs.writeFile('index.html', empl)
     .then((answer) => {
-      //function here to generate manager card in html
-      //fs.writeFile('index.html', generateHtml(answers), (err) => {
-      //console.log(err) )}
       const engineer = new Engineer(
         answer.engineerName,
         answer.engineerId,
@@ -208,7 +217,9 @@ let askEngineer = () => {
         answer.engineerGit,
       );
       teamArr.push(engineer);
-      console.log(teamArr);
+      //console.log(teamArr);
+      htmlGenerator(engineer);
+      askEmployeeType();
     })
     .catch((err) => {
       if (err) throw err;
@@ -221,8 +232,15 @@ let askIntern = () => {
       type: 'input',
       message: 'What is the intern\'s name?',
       name: 'internName',
-      when(answers) {
-        return answers.anotherMember.second === 'Intern';
+      validate: function (input) {
+        if (input.length == 0) {
+          return console.log('Please enter your name.');
+        } else { return true };
+      },
+      filter: function (input) {
+        return input.split(" ").map(word => {
+          return word.substring(0, 1).toUpperCase() + word.substring(1);
+        }).join(" ");
       }
     },
     {
@@ -255,16 +273,8 @@ let askIntern = () => {
         } else { return true };
       }
     },
-    // {
-    //   type: 'list',
-    //   message: 'Would you like to add another team member?',
-    //   name: 'anotherMember.first',
-    //   choices: ['Manager', 'Engineer', 'Intern']
-    // },
   ])
     .then((answer) => {
-      //function here to generate manager card in html
-      //fs.writeFile('index.html', empl)
       const intern = new Intern(
         answer.internName,
         answer.internId,
@@ -272,18 +282,21 @@ let askIntern = () => {
         answer.internSchool,
       );
       teamArr.push(intern);
-      console.log(teamArr);
+      //console.log(teamArr);
+      htmlGenerator(intern);
+      askEmployeeType();
     })
     .catch((err) => {
       if (err) throw err;
     })
 }
 
+//async funcs
 async function askEmployee() {
-  const answers = await askManager();
-  const engineerAnswers = await askEngineer(answers);
-  const internAnswers = await askIntern(engineerAnswers);
-
+  // const managerAnswers = await askManager();
+  // await askEmployeeType(managerAnswers);
+  await askManager();
+  await askEmployeeType();
 }
 
 //init function
