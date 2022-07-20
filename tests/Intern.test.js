@@ -1,13 +1,14 @@
 const Intern = require("../lib/intern");
 
-test("Can instantiate Intern instance", () => {
-  const e = new Intern();
-  expect(typeof (e)).toBe("object");
+test("Can set school via constructor argument", () => {
+  const testValue = "UCF";
+  const e = new Intern("Foo", 1, "test@test.com", testValue);
+  expect(e.school).toBe(testValue);
 });
 
 test("Can get school via getSchool()", () => {
   const testValue = "UCF";
-  const e = new Intern(testValue);
+  const e = new Intern("Foo", 1, "test@test.com", testValue);
   expect(e.getSchool()).toBe(testValue);
 });
 

@@ -5,7 +5,8 @@ const Manager = require('./lib/Manager');
 const Engineer = require('./lib/Engineer');
 const Intern = require('./lib/Intern');
 const Employee = require('./lib/Employee');
-const htmlGenerator = require('./htmlGenerator');
+//const htmlGenerator = require('./htmlGenerator');
+const generateHtml = require('./htmlGenerator');
 
 let teamArr = [];
 //Function to write html files
@@ -123,9 +124,9 @@ let askManager = () => {
         answer.officeNumber,
       );
       teamArr.push(manager);
-      fs.writeFile('index.html', htmlGenerator(manager), err => {
-        if (err) throw err;
-      })
+      // fs.writeFile('index.html', htmlGenerator(manager), err => {
+      //   if (err) throw err;
+      // })
       //console.log(teamArr);
 
     })
@@ -153,8 +154,12 @@ let askEmployeeType = () => {
         askManager();
       } else {
         console.log(teamArr);
+        //generateHtml(teamArr);
         process.exit(0);
       }
+      fs.writeFile('index.html', generateHtml(teamArr), err => {
+        if (err) throw err;
+      })
     })
     .catch((err) => {
       if (err) throw err;
@@ -218,7 +223,9 @@ let askEngineer = () => {
       );
       teamArr.push(engineer);
       //console.log(teamArr);
-      htmlGenerator(engineer);
+      // fs.writeFile('index.html', htmlGenerator(engineer), err => {
+      //   if (err) throw err;
+      // })
       askEmployeeType();
     })
     .catch((err) => {
@@ -283,7 +290,9 @@ let askIntern = () => {
       );
       teamArr.push(intern);
       //console.log(teamArr);
-      htmlGenerator(intern);
+      // fs.writeFile('index.html', htmlGenerator(intern), err => {
+      //   if (err) throw err;
+      // })
       askEmployeeType();
     })
     .catch((err) => {

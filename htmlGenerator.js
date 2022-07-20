@@ -1,9 +1,9 @@
 //role = manager.getRole();
 //id
 
+const index = require("./index")
 
-
-function generateHtml(manager) {
+function generateHtml(array) {
   return `<!DOCTYPE html>
 <html lang="en">
 
@@ -27,20 +27,20 @@ function generateHtml(manager) {
   <div class="pt-5 mt-5 row justify-content-evenly">
     <div class="card shadow" style="width: 18rem;">
       <div class="card-header bg-primary">
-        <h2 class="card-title">${manager.name}</h2>
+        <h2 class="card-title">${array[0].name}</h2>
         <h3 class="card-subtitle text-muted">Position</h3>
       </div>
       <ul class="list-group list-group-flush">
-        <li class="list-group-item p-3">ID: ${manager.id}</li>
-        <li class="list-group-item p-3">Email: ${manager.email}</li>
-        <li class="list-group-item p-3">Office Number: ${manager.officeNumber}</li>
+        <li class="list-group-item p-3">ID: ${array[0].id}</li>
+        <li class="list-group-item p-3">Email: ${array[0].email}</li>
+        <li class="list-group-item p-3">Office Number: ${array[0].officeNumber}</li>
         <li class="list-group-item p-3">GitHub: </li>
       </ul>
     </div>
 
     <div class="card shadow" style="width: 18rem;">
       <div class="card-header bg-primary">
-        <h2 class="card-title">Member Name</h2>
+        <h2 class="card-title">Name</h2>
         <h3 class="card-subtitle text-muted">Position</h3>
       </div>
       <ul class="list-group list-group-flush">
@@ -56,5 +56,6 @@ function generateHtml(manager) {
 
 </html>`
 }
+
 
 module.exports = generateHtml;

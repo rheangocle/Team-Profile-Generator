@@ -1,14 +1,15 @@
 const Manager = require("../lib/manager");
 
-test("Can instantiate Manager instance", () => {
-  const e = new Manager();
-  expect(typeof (e)).toBe("object");
-});
-
 test("Can set officeNumber via constructor argument", () => {
   const testValue = 100;
-  const e = new Manager("Foo", testValue);
+  const e = new Manager("Foo", 1, "test@test.com", testValue);
   expect(e.officeNumber).toBe(testValue);
+});
+
+test("Can get officeNumber via getOfficeNumber()", () => {
+  const testValue = 100;
+  const e = new Manager("Foo", 1, "test@test.com", testValue);
+  expect(e.getOfficeNumber()).toBe(testValue);
 });
 
 test("getRole() should return \"Manager\"", () => {
