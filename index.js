@@ -11,8 +11,6 @@ const generateHtml = require('./htmlGenerator');
 //Declare empty team array
 let teamArr = [];
 
-
-
 const askManager = () => {
 
   return inquirer.prompt([
@@ -81,14 +79,14 @@ const askManager = () => {
     })
 }
 
-let askEmployeeType = (teamArr) => {
-  return inquirer
+let askEmployeeType = () => {
+  inquirer
     .prompt([
       {
         type: 'list',
         message: 'Would you like to add another team member?',
         name: 'anotherMember',
-        choices: ['Manager', 'Engineer', 'Intern', 'None'],
+        choices: ['Engineer', 'Intern', 'None'],
       },
     ])
     .then((answer) => {
@@ -96,15 +94,14 @@ let askEmployeeType = (teamArr) => {
         askEngineer();
       } else if (answer.anotherMember === "Intern") {
         askIntern();
-      } else if (answer.anotherMember === "Manager") {
-        console.log('There is already a manager for this team. Please select another team member');
-        askEmployeeType();
       } else {
-        console.log(teamArr);
-        // createTeam(teamArr);
+        //console.log(teamArr);
+        const html = generateHtml(teamArr);
+        //console.log(html);
+        writeFile(html);
         //process.exit(0);
         //return teamArr;
-        //return generateHtml(teamArr);
+        ;
       }
       //return generateHtml(teamArr);
     })
@@ -114,7 +111,7 @@ let askEmployeeType = (teamArr) => {
 }
 
 const askEngineer = () => {
-  return inquirer.prompt([
+  inquirer.prompt([
     {
       type: 'input',
       message: 'What is the engineer\'s name?',
@@ -169,10 +166,7 @@ const askEngineer = () => {
         answer.engineerGit,
       );
       teamArr.push(engineer);
-      //generateHtml(teamArr);
-      //askEmployeeType();
       askEmployeeType();
-      //return generateHtml(teamArr)
     })
     .catch((err) => {
       if (err) throw err;
@@ -180,7 +174,7 @@ const askEngineer = () => {
 }
 
 const askIntern = () => {
-  return inquirer.prompt([
+  inquirer.prompt([
     {
       type: 'input',
       message: 'What is the intern\'s name?',
@@ -243,21 +237,21 @@ const askIntern = () => {
     })
 }
 
+
 function writeFile(data) {
-  fs.writeFile('./index.html', data, err => {
-    if (err) throw err;
-    console.log('Your Team Profile page has been created!');
+  fs.writeFile("index.html", data, (err) => {
+    if (err)
+      console.log(err);
+    else {
+      console.log("File written successfully\n");
+      console.log("The written has the following contents:");
+    }
   })
 }
 
 //init function
 askManager()
   .then(askEmployeeType)
-  .then((data) => { return teamArr })
-  .then(teamArr => {
-    return generateHtml(teamArr);
-  })
-  .then(writeFile)
   .catch((err) => {
     if (err) throw err;
   })
