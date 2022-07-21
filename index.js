@@ -1,62 +1,19 @@
 //Importing neccessary files
 const inquirer = require('inquirer');
 const fs = require('fs');
+
 const Manager = require('./lib/Manager');
 const Engineer = require('./lib/Engineer');
 const Intern = require('./lib/Intern');
 const Employee = require('./lib/Employee');
-//const htmlGenerator = require('./htmlGenerator');
 const generateHtml = require('./htmlGenerator');
 
+//Declare empty team array
 let teamArr = [];
-//Function to write html files
 
-//Function to initialize app (or async func)
-/*function init() {
-add func for creating mangager
-  function createManager() {
-    use inquirer 
-  }
 
-  .then(answers) => {
-    -send answers
-    -push new manager to team array
-    -call function for determining type of employee, createTeam()
-  }
-}
 
-function for determining type of employee:
-function createTeam() {
-  use inquirer
-  then, based on choice, run func associated with adding employee type
-  .then((choice)) => {
-    conditional that runs function for employee type that user selected
-    if intern, run addIntern func
-    if they do not want anymore members, run function to build team(create file)
-  }
-}
-
-function for adding team member: separate func for each type
-function addIntern() {
-  use inquirer
-  prompt qs
-  take answers and create instance of Intern, add to new Intern 
-  push member into team array
-}
-
-function for building team
-function buildTeam() {
-  create file and add team to it
-  call function, passing in team members array, send to another js file
-}
-
-last of initializing function is to call function for creating manager so that it is the first question being asked. 
-
-createManager()
-
-*/
-
-let askManager = () => {
+const askManager = () => {
 
   return inquirer.prompt([
     // {
@@ -71,7 +28,7 @@ let askManager = () => {
       name: 'managerName',
       validate: function (input) {
         if (input.length == 0) {
-          return console.log('Please enter your name.');
+          return console.log('Please enter a name.');
         } else { return true };
       },
       //Returns name with first letter of each word capitalized
@@ -96,7 +53,7 @@ let askManager = () => {
       validate: (input) => {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
         if (!emailRegex.test(input)) {
-          return "You have to provide a valid email address!"
+          return "You have to provide a valid email address."
         }
         return true
       }
@@ -109,12 +66,6 @@ let askManager = () => {
         return parseInt(answer);
       }
     },
-    // {
-    //   type: 'list',
-    //   message: 'Would you like to add another team member?',
-    //   name: 'anotherMember.first',
-    //   choices: ['Manager', 'Engineer', 'Intern']
-    // },
   ])
     .then((answer) => {
       const manager = new Manager(
@@ -124,25 +75,20 @@ let askManager = () => {
         answer.officeNumber,
       );
       teamArr.push(manager);
-      // fs.writeFile('index.html', htmlGenerator(manager), err => {
-      //   if (err) throw err;
-      // })
-      //console.log(teamArr);
-
     })
     .catch((err) => {
       if (err) throw err;
     })
 }
 
-let askEmployeeType = () => {
+let askEmployeeType = (teamArr) => {
   return inquirer
     .prompt([
       {
         type: 'list',
         message: 'Would you like to add another team member?',
         name: 'anotherMember',
-        choices: ['Manager', 'Engineer', 'Intern', 'None']
+        choices: ['Manager', 'Engineer', 'Intern', 'None'],
       },
     ])
     .then((answer) => {
@@ -151,22 +97,23 @@ let askEmployeeType = () => {
       } else if (answer.anotherMember === "Intern") {
         askIntern();
       } else if (answer.anotherMember === "Manager") {
-        askManager();
+        console.log('There is already a manager for this team. Please select another team member');
+        askEmployeeType();
       } else {
         console.log(teamArr);
-        //generateHtml(teamArr);
-        process.exit(0);
+        // createTeam(teamArr);
+        //process.exit(0);
+        //return teamArr;
+        //return generateHtml(teamArr);
       }
-      fs.writeFile('index.html', generateHtml(teamArr), err => {
-        if (err) throw err;
-      })
+      //return generateHtml(teamArr);
     })
     .catch((err) => {
       if (err) throw err;
     })
 }
 
-let askEngineer = () => {
+const askEngineer = () => {
   return inquirer.prompt([
     {
       type: 'input',
@@ -174,7 +121,7 @@ let askEngineer = () => {
       name: 'engineerName',
       validate: function (input) {
         if (input.length == 0) {
-          return console.log('Please enter your name.');
+          return console.log('Please enter a name.');
         } else { return true };
       },
       filter: function (input) {
@@ -198,7 +145,7 @@ let askEngineer = () => {
       validate: (input) => {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
         if (!emailRegex.test(input)) {
-          return "You have to provide a valid email address!"
+          return "You have to provide a valid email address."
         }
         return true
       }
@@ -209,7 +156,7 @@ let askEngineer = () => {
       name: 'engineerGit',
       validate: function (input) {
         if (input.length == 0) {
-          return console.log('Please enter your name.');
+          return console.log('Please enter a github username.');
         } else { return true };
       }
     },
@@ -222,18 +169,17 @@ let askEngineer = () => {
         answer.engineerGit,
       );
       teamArr.push(engineer);
-      //console.log(teamArr);
-      // fs.writeFile('index.html', htmlGenerator(engineer), err => {
-      //   if (err) throw err;
-      // })
+      //generateHtml(teamArr);
+      //askEmployeeType();
       askEmployeeType();
+      //return generateHtml(teamArr)
     })
     .catch((err) => {
       if (err) throw err;
     })
 }
 
-let askIntern = () => {
+const askIntern = () => {
   return inquirer.prompt([
     {
       type: 'input',
@@ -241,7 +187,7 @@ let askIntern = () => {
       name: 'internName',
       validate: function (input) {
         if (input.length == 0) {
-          return console.log('Please enter your name.');
+          return console.log('Please enter a name.');
         } else { return true };
       },
       filter: function (input) {
@@ -265,7 +211,7 @@ let askIntern = () => {
       validate: (input) => {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
         if (!emailRegex.test(input)) {
-          return "You have to provide a valid email address!"
+          return "You have to provide a valid email address."
         }
         return true
       }
@@ -276,7 +222,7 @@ let askIntern = () => {
       name: 'internSchool',
       validate: function (input) {
         if (input.length == 0) {
-          return console.log('Please enter your name.');
+          return console.log('Please enter a school name.');
         } else { return true };
       }
     },
@@ -290,9 +236,6 @@ let askIntern = () => {
       );
       teamArr.push(intern);
       //console.log(teamArr);
-      // fs.writeFile('index.html', htmlGenerator(intern), err => {
-      //   if (err) throw err;
-      // })
       askEmployeeType();
     })
     .catch((err) => {
@@ -300,13 +243,21 @@ let askIntern = () => {
     })
 }
 
-//async funcs
-async function askEmployee() {
-  // const managerAnswers = await askManager();
-  // await askEmployeeType(managerAnswers);
-  await askManager();
-  await askEmployeeType();
+function writeFile(data) {
+  fs.writeFile('./index.html', data, err => {
+    if (err) throw err;
+    console.log('Your Team Profile page has been created!');
+  })
 }
 
 //init function
-askEmployee();
+askManager()
+  .then(askEmployeeType)
+  .then((data) => { return teamArr })
+  .then(teamArr => {
+    return generateHtml(teamArr);
+  })
+  .then(writeFile)
+  .catch((err) => {
+    if (err) throw err;
+  })

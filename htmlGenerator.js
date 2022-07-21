@@ -1,9 +1,5 @@
 //role = manager.getRole();
-//id
-
-const index = require("./index")
-
-function generateHtml(array) {
+function htmlGenerator(profile) {
   return `<!DOCTYPE html>
 <html lang="en">
 
@@ -25,37 +21,91 @@ function generateHtml(array) {
   </nav>
 
   <div class="pt-5 mt-5 row justify-content-evenly">
-    <div class="card shadow" style="width: 18rem;">
-      <div class="card-header bg-primary">
-        <h2 class="card-title">${array[0].name}</h2>
-        <h3 class="card-subtitle text-muted">Position</h3>
-      </div>
-      <ul class="list-group list-group-flush">
-        <li class="list-group-item p-3">ID: ${array[0].id}</li>
-        <li class="list-group-item p-3">Email: ${array[0].email}</li>
-        <li class="list-group-item p-3">Office Number: ${array[0].officeNumber}</li>
-        <li class="list-group-item p-3">GitHub: </li>
-      </ul>
-    </div>
 
-    <div class="card shadow" style="width: 18rem;">
-      <div class="card-header bg-primary">
-        <h2 class="card-title">Name</h2>
-        <h3 class="card-subtitle text-muted">Position</h3>
-      </div>
-      <ul class="list-group list-group-flush">
-        <li class="list-group-item p-3">ID: </li>
-        <li class="list-group-item p-3">Email: </li>
-        <li class="list-group-item p-3">Office Number:</li>
-        <li class="list-group-item p-3">GitHub: </li>
-      </ul>
-    </div>
-
+    ${profile}
+    
   </div>
-</body>
-
-</html>`
+  </body>
+  
+  </html>`
 }
 
+// function appendHtml(employee) {
+//   return `<div class="card shadow" style="width: 18rem;">
+//   <div class="card-header bg-primary">
+//     <h2 class="card-title">${employee.name}</h2>
+//     <h3 class="card-subtitle text-muted">Position</h3>
+//   </div>
+//   <ul class="list-group list-group-flush">
+//     <li class="list-group-item p-3">ID: ${employee.id}</li>
+//     <li class="list-group-item p-3">Email: ${employee.email}</li>
+//     <li class="list-group-item p-3">GitHub: ${employee.github}</li>
+//   </ul >
+// </div > `
+// }
+
+//const Engineer = require("./lib/Engineer");
+
+function generateHtml(data) {
+
+  let myTeamArr = [];
+
+  for (let i = 0; i < data.length; i++) {
+    const employee = data[i];
+    let employeeRole = employee.getRole();
+
+    if (employeeRole === "Manager") {
+      let managerProfile = `<div class="card shadow" style="width: 18rem;">
+      <div class="card-header bg-primary">
+        <h2 class="card-title">${employee.name}</h2>
+        <h3 class="card-subtitle text-muted">${employee.role}</h3>
+      </div>
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item p-3">ID: ${employee.id}</li>
+        <li class="list-group-item p-3">Email: ${employee.email}</li>
+        <li class="list-group-item p-3">Office Number: ${employee.officeNumber}</li>
+      </ul>
+    </div>`
+      myTeamArr.push(managerProfile);
+    }
+
+    if (employeeRole === "Engineer") {
+      const engineerProfile = `<div class="card shadow" style="width: 18rem;">
+      <div class="card-header bg-primary">
+        <h2 class="card-title">${employee.name}</h2>
+        <h3 class="card-subtitle text-muted">${employee.role}</h3>
+      </div>
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item p-3">ID: ${employee.id}</li>
+        <li class="list-group-item p-3">Email: ${employee.email}</li>
+        <li class="list-group-item p-3">GitHub: ${employee.github}</li>
+      </ul>
+    </div>`
+
+      myTeamArr.push(engineerProfile);
+    }
+
+    if (employeeRole === "Intern") {
+      const internProfile = `<div class="card shadow" style="width: 18rem;">
+      <div class="card-header bg-primary">
+        <h2 class="card-title">${employee.name}</h2>
+        <h3 class="card-subtitle text-muted">${employee.role}</h3>
+      </div>
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item p-3">ID: ${employee.id}</li>
+        <li class="list-group-item p-3">Email: ${employee.email}</li>
+        <li class="list-group-item p-3">School: ${employee.school}</li>
+      </ul>
+    </div>`;
+
+      myTeamArr.push(internProfile);
+    }
+  }
+
+  let allCards = myTeamArr.join('');
+  //console.log(allCards);
+  //const generatePage = htmlGenerator(allCards);
+  return htmlGenerator(allCards);
+}
 
 module.exports = generateHtml;
