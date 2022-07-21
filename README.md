@@ -34,7 +34,8 @@ Jest was used to test this application.
 
 ## Mock-up
 
-![Walkthrough video](https://drive.google.com/file/d/1ItGIlJAm0WZXj4F5ywZKIB9arZCBt1Sc/view?usp=sharing)
+[Click to view walkthrough video](https://drive.google.com/file/d/1ItGIlJAm0WZXj4F5ywZKIB9arZCBt1Sc/view?usp=sharing)
+
 ![Screenshot of My Team html page](./assets/images/team-profile-page.PNG)
 
 ---
