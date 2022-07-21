@@ -7,23 +7,32 @@ const Engineer = require('./lib/Engineer');
 const Intern = require('./lib/Intern');
 const Employee = require('./lib/Employee');
 const generateHtml = require('./htmlGenerator');
+//const { start } = require('repl');
 
 //Declare empty team array
 let teamArr = [];
 
 const askManager = () => {
-
+  //Questions about the manager
   return inquirer.prompt([
-    // {
-    //   type: 'list',
-    //   message: 'Choose a role for the employee: ',
-    //   name: 'anotherMember.first',
-    //   choices: ['Manager', 'Engineer', 'Intern']
-    // },
+    {
+      type: 'list',
+      message: 'Would you like to create a team profile?',
+      name: 'start',
+      choices: ['Yes!', 'No, thanks'],
+    },
     {
       type: 'input',
       message: 'What is the name of the team manager?',
       name: 'managerName',
+      when: function (answers) {
+        if (answers.start === 'Yes!') {
+          return true
+        } else {
+          console.log('Come back when you do!');
+          process.exit(0);
+        }
+      },
       validate: function (input) {
         if (input.length == 0) {
           return console.log('Please enter a name.');
@@ -34,7 +43,7 @@ const askManager = () => {
         return input.split(" ").map(word => {
           return word.substring(0, 1).toUpperCase() + word.substring(1);
         }).join(" ");
-      }
+      },
     },
     {
       type: 'input',
@@ -65,6 +74,7 @@ const askManager = () => {
       }
     },
   ])
+    //Creating new instance of manager
     .then((answer) => {
       const manager = new Manager(
         answer.managerName,
@@ -72,6 +82,7 @@ const askManager = () => {
         answer.managerEmail,
         answer.officeNumber,
       );
+      //adding manager to team array
       teamArr.push(manager);
     })
     .catch((err) => {
@@ -79,38 +90,8 @@ const askManager = () => {
     })
 }
 
-let askEmployeeType = () => {
-  inquirer
-    .prompt([
-      {
-        type: 'list',
-        message: 'Would you like to add another team member?',
-        name: 'anotherMember',
-        choices: ['Engineer', 'Intern', 'None'],
-      },
-    ])
-    .then((answer) => {
-      if (answer.anotherMember === "Engineer") {
-        askEngineer();
-      } else if (answer.anotherMember === "Intern") {
-        askIntern();
-      } else {
-        //console.log(teamArr);
-        const html = generateHtml(teamArr);
-        //console.log(html);
-        writeFile(html);
-        //process.exit(0);
-        //return teamArr;
-        ;
-      }
-      //return generateHtml(teamArr);
-    })
-    .catch((err) => {
-      if (err) throw err;
-    })
-}
-
 const askEngineer = () => {
+  //Asking questions regarding the intern
   inquirer.prompt([
     {
       type: 'input',
@@ -121,6 +102,7 @@ const askEngineer = () => {
           return console.log('Please enter a name.');
         } else { return true };
       },
+      //Capitalizing name
       filter: function (input) {
         return input.split(" ").map(word => {
           return word.substring(0, 1).toUpperCase() + word.substring(1);
@@ -159,13 +141,16 @@ const askEngineer = () => {
     },
   ])
     .then((answer) => {
+      //Create instance of Engineer
       const engineer = new Engineer(
         answer.engineerName,
         answer.engineerId,
         answer.engineerEmail,
         answer.engineerGit,
       );
+      //Adding engineer to team array
       teamArr.push(engineer);
+      //Ask user to add another team member
       askEmployeeType();
     })
     .catch((err) => {
@@ -174,6 +159,7 @@ const askEngineer = () => {
 }
 
 const askIntern = () => {
+  //Asking questions regarding the intern
   inquirer.prompt([
     {
       type: 'input',
@@ -218,18 +204,23 @@ const askIntern = () => {
         if (input.length == 0) {
           return console.log('Please enter a school name.');
         } else { return true };
+      },
+      filter(answer) {
+        return answer.toUpperCase();
       }
     },
   ])
     .then((answer) => {
+      //Create instance of Intern
       const intern = new Intern(
         answer.internName,
         answer.internId,
         answer.internEmail,
         answer.internSchool,
       );
+      //Add intern obj to the team array
       teamArr.push(intern);
-      //console.log(teamArr);
+      //Ask the user for another if they want to add another employee
       askEmployeeType();
     })
     .catch((err) => {
@@ -237,14 +228,43 @@ const askIntern = () => {
     })
 }
 
+const askEmployeeType = () => {
+  //Ask user to add a team member
+  inquirer
+    .prompt([
+      {
+        type: 'list',
+        message: 'Would you like to add another team member?',
+        name: 'anotherMember',
+        choices: ['Engineer', 'Intern', 'None'],
+      },
+    ])
+    //Prompt user to answer questions depending on type of employee they choose
+    .then((answer) => {
+      if (answer.anotherMember === "Engineer") {
+        askEngineer();
+      } else if (answer.anotherMember === "Intern") {
+        askIntern();
+      } else {
+        //passing the team array to create the html body
+        const html = generateHtml(teamArr);
+        //creating the html file
+        writeFile(html);
+      }
+    })
+    .catch((err) => {
+      if (err) throw err;
+    })
+}
 
+
+//Creating index file
 function writeFile(data) {
   fs.writeFile("index.html", data, (err) => {
     if (err)
       console.log(err);
     else {
-      console.log("File written successfully\n");
-      console.log("The written has the following contents:");
+      console.log("Your team profile has been succesfully generated! Click on index.html to view.");
     }
   })
 }

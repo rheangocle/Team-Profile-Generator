@@ -1,8 +1,18 @@
 # Team-Profile-Generator
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+## Table of Contents
+
+- [Summary](#Summary)
+- [User Story](#user-story)
+- [Installations](#Installations)
+- [Tests](#Tests)
+- [Mock-up](#Mock-up)
+
 ## Summary
 
-generating html files for team members
+Node js and Inquirer were used to create a command prompt that asks questions about their team and generate a page containing employee information. When the user starts the command line, they will be prompted to add a manager for the team. After they complete the prompt for the manager, they will asked to added another team member (engineer, intern). Once the user finishes adding all the team members, the application will generate an html file with simple employee information on the page. The user will be able to open the github profiles on a separate page or click on the email address and the default email program will open up.
 
 ## User Story
 
@@ -12,27 +22,22 @@ I WANT to generate a webpage that displays my team's basic info
 SO THAT I have quick access to their emails and GitHub profiles
 ```
 
-## Acceptance Criteria
+## Installations
 
-```md
-GIVEN a command-line application that accepts user input
-WHEN I am prompted for my team members and their information
-THEN an HTML file is generated that displays a nicely formatted team roster based on user input
-WHEN I click on an email address in the HTML
-THEN my default email program opens and populates the TO field of the email with the address
-WHEN I click on the GitHub username
-THEN that GitHub profile opens in a new tab
-WHEN I start the application
-THEN I am prompted to enter the team manager’s name ✅, employee ID ✅, email address ✅, and office number✅
-WHEN I enter the team manager’s name, employee ID, email address, and office number
-THEN I am presented with a menu with the option to add an engineer or an intern or to finish building my team
-WHEN I select the engineer option
-THEN I am prompted to enter the engineer’s name ✅, ID✅, email✅, and GitHub username✅, and I am taken back to the menu
-WHEN I select the intern option
-THEN I am prompted to enter the intern’s name, ID, email, and school, and I am taken back to the menu
-WHEN I decide to finish building my team
-THEN I exit the application, and the HTML is generated
-```
+- ✅ Node js: required to run application
+- ✅ Inquirer: to create prompts
+- ✅ Jest: testing
+
+## Tests
+
+Jest was used to test this application.
+
+## Mock-up
+
+![Walkthrough video](https://drive.google.com/file/d/1ItGIlJAm0WZXj4F5ywZKIB9arZCBt1Sc/view)
+![Screenshot of My Team html page](./assets/images/team-profile-page.PNG)
+
+---
 
 MIT License
 

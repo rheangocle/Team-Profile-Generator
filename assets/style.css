@@ -1,0 +1,8 @@
+h1 {
+  font-weight: bolder;
+}
+
+a:hover {
+  color: gray;
+  text-transform: capitalize;
+}
